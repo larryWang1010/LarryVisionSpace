@@ -1,0 +1,12 @@
+build/*
+*.vscode
+cmake-build-debug/*
+build*
+cmake-build*
+.idea
+*.history*
+*install/*
+bin
+data
+lib
+__pycache__
