@@ -48,5 +48,8 @@ target_link_libraries(${TEST_LIB} ${_LINK_LIBS})
 # add_executable(test_resize ${PROJECT_SOURCE_DIR}/test/test_resize.cpp)
 # target_link_libraries(test_resize ${_LINK_LIBS}) # 链接库
 
-add_executable(test_orb ${PROJECT_SOURCE_DIR}/test/test_orb.cpp)
-target_link_libraries(test_orb ${TEST_LIB} ${_LINK_LIBS}) # 链接库
+# add_executable(test_orb ${PROJECT_SOURCE_DIR}/test/test_orb.cpp)
+# target_link_libraries(test_orb ${TEST_LIB} ${_LINK_LIBS}) # 链接库
+
+add_executable(test ${PROJECT_SOURCE_DIR}/src/pyramid/test.cpp)
+target_link_libraries(test ${TEST_LIB} ${_LINK_LIBS}) # 链接库

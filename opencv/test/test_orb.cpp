@@ -1,12 +1,9 @@
 /*
- * @Author: jiajunwang 18035173529@163.com
- * @Date: 2023-07-13 11:47:37
- * @LastEditors: jiajunwang 18035173529@163.com
- * @LastEditTime: 2023-07-13 16:00:01
- * @FilePath: /testOpencv/test/test_orb.cpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置:
- * https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @Description: orb-slam2 ORBextractor特征提取器使用
+ * @Author: larry.wang
+ * @Date: 2023-07-27 13:59:37
  */
+
 #include <iostream>
 #include <memory>
 #include <opencv2/opencv.hpp>
@@ -43,18 +40,18 @@ int main(int argc, char** argv) {
 
     cv::Mat image = cv::imread(image_path);
 
-    std::cout << "Image info: " << image.type() << " " << image.channels() << std::endl;
+    std::cout << "Image info, [type:info] " << image.type() << ":" << image.channels() << std::endl;
+
     if (image.empty()) {
         return 0;
     } else if (image.type() == CV_8UC1) {
-        std::cout << "image type wrong!" << std::endl;
+        std::cout << "Image type wrong!" << std::endl;
         return 0;
     } else {
         std::cout << "Successfully load images!" << std::endl;
     }
 
     // load parameters from yaml file
-
     cv::FileStorage fSettings(file_path, cv::FileStorage::READ);
     if (!fSettings.isOpened()) {
         std::cerr << "Failed to open settings file at: " << file_path << std::endl;

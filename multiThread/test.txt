@@ -1,0 +1,4 @@
+system has 1 processor(s). 
+system has 1 processor(s) can be used now. 
+the thread is:0
+this thread 0 is running processor : 0

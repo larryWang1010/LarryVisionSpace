@@ -1,3 +1,9 @@
+/*
+ * @Description:cpp 读取文件
+ * @Author: larry.wang
+ * @Date: 2023-07-27 16:29:09
+ */
+
 #include <fstream>
 #include <iostream>
 #include <map>
@@ -50,7 +56,6 @@ void readCsv(const std::string &strPathGtInfo,
   // 打开CSV文件
   std::ifstream file(strPathGtInfo);
   std::string line;
-  std::getline(file, line);
   // std::cout << line << " " << std::endl;
   // 读取每一行数据
   size_t counter = 0;

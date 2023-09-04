@@ -1,0 +1,47 @@
+FROM ubuntu:20.04
+MAINTAINER brimon
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN 	apt-get update && \
+	sed -i s@/archive.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
+	sed -i s@/security.ubuntu.com/@/mirrors.aliyun.com/@g /etc/apt/sources.list && \
+	apt clean && apt-get update -y && \
+	apt-get update && apt-get -y install gnupg2 curl vim net-tools wget && \
+	# install ros noetic
+	sh -c '. /etc/lsb-release && echo "deb https://mirrors.ustc.edu.cn/ros/ubuntu/ $DISTRIB_CODENAME main" > /etc/apt/sources.list.d/ros-latest.list' && \
+	apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654 && \
+	apt-get update && apt-get -y install ros-noetic-desktop-full
+
+RUN	apt-get update && apt-get -y install rospack-tools python3-rosdep python3-pip && \
+	pip3 install rosdepc && \
+	rosdepc init && \
+	echo "source /opt/ros/noetic/setup.bash" >> ~/.bashrc && \
+	# Solve the problem of roscore startup error
+	echo "export ROS_HOSTNAME=localhost" >> ~/.bashrc && \
+	echo "export ROS_MASTER_URI=http://localhost:11311" >> ~/.bashrc
+
+
+# load source files
+RUN	mkdir /home/lib
+ADD 	opencv-4.2.0.zip /home/lib
+ADD	Pangolin.zip /home/lib
+ADD	eigen-git-mirror.zip /home/lib
+ADD 	ORB_SLAM3.zip /home
+ADD	usb_cam-develop.zip /home
+
+RUN	apt-get update && apt-get -y install git libgl1-mesa-dev libglew-dev libpython2.7-dev pkg-config libwayland-dev libxkbcommon-dev wayland-protocols libssl-dev libcanberra-gtk-module gedit
+# Pangolin
+RUN	cd /home/lib && unzip Pangolin.zip && cd Pangolin && mkdir build && cd build && cmake .. && make -j$(nproc) && make install && cd /home/lib && rm -rf Pangolin.zip
+# OpenCV
+RUN	cd /home/lib && unzip opencv-4.2.0.zip && cd opencv-4.2.0 && mkdir build && cd build && cmake .. && make -j$(nproc) && make install && cd /home/lib && rm -rf opencv-4.2.0.zip
+# eige
+RUN	cd /home/lib && unzip eigen-git-mirror.zip && cd eigen-git-mirror && mkdir build && cd build && cmake .. && make -j$(nproc) && make install && cd /home/lib && rm -rf eigen-git-mirror.zip
+# ORB_SLAM3
+RUN	cd /home && unzip ORB_SLAM3.zip && cd ORB_SLAM3 && ./build.sh && cd .. && rm -rf ORB_SLAM3.zip
+RUN	/bin/bash -c '. /opt/ros/noetic/setup.bash; cd /home/ORB_SLAM3; ./build_ros.sh' && \
+	/bin/bash -c '. ldconfig'
+#usb_cam
+RUN	mkdir -p /home/catkin_ws/src && cd /home/catkin_ws/src && \
+	mv /home/usb_cam-develop.zip . && unzip usb_cam-develop.zip && rm -rf unzip usb_cam-develop.zip && \
+	/bin/bash -c '. /opt/ros/noetic/setup.bash; cd /home/catkin_ws; catkin_make'
+
