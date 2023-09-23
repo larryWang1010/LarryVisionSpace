@@ -51,5 +51,16 @@ target_link_libraries(${TEST_LIB} ${_LINK_LIBS})
 # add_executable(test_orb ${PROJECT_SOURCE_DIR}/test/test_orb.cpp)
 # target_link_libraries(test_orb ${TEST_LIB} ${_LINK_LIBS}) # 链接库
 
-add_executable(test ${PROJECT_SOURCE_DIR}/src/pyramid/test.cpp)
-target_link_libraries(test ${TEST_LIB} ${_LINK_LIBS}) # 链接库
+# add_executable(test ${PROJECT_SOURCE_DIR}/src/pyramid/test.cpp)
+# target_link_libraries(test ${TEST_LIB} ${_LINK_LIBS}) # 链接库
+# add_executable(disparty ${PROJECT_SOURCE_DIR}/src/calib3d/disparty.cpp)
+# target_link_libraries(disparty ${TEST_LIB} ${_LINK_LIBS}) # 链接库
+
+add_executable(useMat ${PROJECT_SOURCE_DIR}/test/useMat.cpp)
+target_link_libraries(useMat ${TEST_LIB}) # 链接库
+
+add_executable(useColorMap ${PROJECT_SOURCE_DIR}/test/useColorMap.cpp)
+target_link_libraries(useColorMap ${TEST_LIB}) # 链接库
+
+add_executable(disparity_filtering ${PROJECT_SOURCE_DIR}/test/disparity_filtering.cpp)
+target_link_libraries(disparity_filtering ${TEST_LIB}) # 链接库
