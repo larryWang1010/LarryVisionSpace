@@ -20,4 +20,10 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=deprecated-declarations -Wno-depr
 # 输出目录
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # set(LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+# 第三方库
+find_package(Eigen3 REQUIRED)
+find_package(GTest REQUIRED)
+
 add_subdirectory(eigen)
+add_subdirectory(sophus)
