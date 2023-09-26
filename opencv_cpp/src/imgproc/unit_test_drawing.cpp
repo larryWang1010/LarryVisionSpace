@@ -1,14 +1,15 @@
+#include <gtest/gtest.h>
 #include <stdio.h>
 
 #include <iostream>
 
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
 
 using namespace std;
 using namespace cv;
 
-int main() {
+TEST(IMGPROC, Drawing) {
     Mat img = Mat::zeros(Size(800, 600), CV_8UC3);
     img.setTo(255);
     Point p1(100, 100);
@@ -34,5 +35,4 @@ int main() {
     imshow("大杂烩", img);
 
     waitKey();
-    return 0;
 }

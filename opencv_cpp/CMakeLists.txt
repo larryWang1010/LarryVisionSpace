@@ -1,6 +1,9 @@
 cmake_minimum_required(VERSION 3.16)
-project(test DESCRIPTION "test opencv")
-# project(test)
+project(opencv_test 
+    VERSION 1.0
+    DESCRIPTION "test opencv"
+    LANGUAGES CXX
+)
 
 # 编译选项
 set(CMAKE_CXX_STANDARD 14)
@@ -14,53 +17,48 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${COMPILER_WARNINGS} -pthread")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -O3")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wno-error=deprecated-declarations -Wno-deprecated-declarations")
 
-# 开关
+# 输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+# set(LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
+
+# 开关选项
 option(BUILD_SHARED_LIBS "Build shared libraries" OFF)
+option(BUILD_APP "Build app" ON)
+option(BUILD_GTESTS "Build Gtest " ON)
 
 # 查找库
 find_package(OpenCV 4.5.4 REQUIRED)
+message(STATUS "Found OpenCV ${OpenCV_VERSION} headers in: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "Found OpenCV_LIBS: ${OpenCV_LIBS}")
+# add_library(opencv_test::opencv INTERFACE IMPORTED)
+# set_property(TARGET opencv_test::opencv PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${OpenCV_INCLUDE_DIRS})
+# set_property(TARGET opencv_test::opencv PROPERTY INTERFACE_LINK_LIBRARIES ${OpenCV_LIBS})
 
-set(TEST_LIB myopencv)
-set(_LINK_LIBS ${OpenCV_LIBS})
-# ouput dir
-set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/bin)
-# set(LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/lib)
-
-# 包含头文件
-include_directories(
-        ${PROJECT_SOURCE_DIR}/include
-        ${OpenCV_INLCUDE_DIRS}
-        
-)
+set(CV_TEST_LIB opencv)
 file(GLOB_RECURSE _SRC_FILE ${PROJECT_SOURCE_DIR}/src/*.cpp)
-add_library(${TEST_LIB} STATIC ${_SRC_FILE})
-target_link_libraries(${TEST_LIB} ${_LINK_LIBS})
 
-# add_executable(test ${PROJECT_SOURCE_DIR}/test/test_main.cpp)
-# target_link_libraries(test ${TEST_LIB}) # 链接库
-
-# add_executable(fast_detect ${PROJECT_SOURCE_DIR}/test/fast_detect.cpp)
-# target_link_libraries(fast_detect ${_LINK_LIBS})
-
-# add_executable(feature_detect ${PROJECT_SOURCE_DIR}/test/feature_detect.cpp)
-# target_link_libraries(feature_detect ${_LINK_LIBS})
-
-# add_executable(test_resize ${PROJECT_SOURCE_DIR}/test/test_resize.cpp)
-# target_link_libraries(test_resize ${_LINK_LIBS}) # 链接库
-
-# add_executable(test_orb ${PROJECT_SOURCE_DIR}/test/test_orb.cpp)
-# target_link_libraries(test_orb ${TEST_LIB} ${_LINK_LIBS}) # 链接库
-
-# add_executable(test ${PROJECT_SOURCE_DIR}/src/pyramid/test.cpp)
-# target_link_libraries(test ${TEST_LIB} ${_LINK_LIBS}) # 链接库
-# add_executable(disparty ${PROJECT_SOURCE_DIR}/src/calib3d/disparty.cpp)
-# target_link_libraries(disparty ${TEST_LIB} ${_LINK_LIBS}) # 链接库
-
-add_executable(useMat ${PROJECT_SOURCE_DIR}/test/useMat.cpp)
-target_link_libraries(useMat ${TEST_LIB}) # 链接库
-
-add_executable(useColorMap ${PROJECT_SOURCE_DIR}/test/useColorMap.cpp)
-target_link_libraries(useColorMap ${TEST_LIB}) # 链接库
-
-add_executable(disparity_filtering ${PROJECT_SOURCE_DIR}/test/disparity_filtering.cpp)
-target_link_libraries(disparity_filtering ${TEST_LIB}) # 链接库
+add_library(${CV_TEST_LIB})
+target_sources(${CV_TEST_LIB}
+    PRIVATE ${_SRC_FILE}
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+# 包含头文件
+target_include_directories( ${CV_TEST_LIB} 
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${OpenCV_INCLUDE_DIRS}
+ )
+# 第三方库
+target_link_libraries( ${CV_TEST_LIB} 
+    PUBLIC 
+        ${OpenCV_LIBS}
+)
+# add googletest
+if(BUILD_GTESTS)
+   add_subdirectory(Thirdparty/googletest)
+   add_subdirectory(test)
+endif()
+# add app
+if(BUILD_APP)
+    add_subdirectory(app)
+endif()

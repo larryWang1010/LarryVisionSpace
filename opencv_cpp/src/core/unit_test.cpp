@@ -1,13 +1,7 @@
-/*
- * @Author: jiajunwang 18035173529@163.com
- * @Date: 2023-07-13 10:14:28
- * @LastEditors: jiajunwang 18035173529@163.com
- * @LastEditTime: 2023-07-13 10:22:50
- * @FilePath: /test/test.cpp
- * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置:
- * https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- */
+#include <gtest/gtest.h>
+
 #include <chrono>
+#include <iostream>
 #include <opencv2/opencv.hpp>
 #define millisecond 1000000
 #define DEBUG_PRINT(...) \
@@ -17,8 +11,8 @@
 #define RUN_TIME(time_) (double)(time_).count() / millisecond
 using namespace std;
 
-int main() {
-    string image_path = "./data/lena.png";
+TEST(Core, resize) {
+    std::string image_path = "./data/lena.png";
     cv::Mat image = cv::imread(image_path);
     cv::Mat image2X_INTER_NEAREST;
     cv::Mat image2X_INTER_LINEAR;
@@ -45,6 +39,19 @@ int main() {
     DEBUG_PRINT("INTER_LINEAR :%3.3fms", RUN_TIME(T2 - T1));
     DEBUG_PRINT("INTER_AREA   :%3.3fms", RUN_TIME(T3 - T2));
     DEBUG_PRINT("INTER_CUBIC  :%3.3fms", RUN_TIME(T4 - T3));
+}
+TEST(Core, ColorMap) {
+    // We need an input image. (can be grayscale or color)
+    std::string image_path = "./data/lena.png";
+    cv::Mat img_in = cv::imread(image_path);
+    if (img_in.empty())
+        std::cerr << "Sample image (" << image_path
+                  << ") is empty. Please adjust your path, so it points to a valid input image!" << std::endl;
 
-    return 0;
+    // Holds the colormap version of the image:
+    cv::Mat img_color;
+    // Apply the colormap:
+    cv::applyColorMap(img_in, img_color, cv::COLORMAP_TURBO);
+    // Show the result:
+    cv::imshow("ColorMap", img_color);
 }

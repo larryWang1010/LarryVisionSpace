@@ -1,4 +1,4 @@
-#include "feature/feature_detect.h"
+#include "feature2d/feature_detect.h"
 
 namespace my_test {
 FeatureDetect::FeatureDetect(/* args */) {}

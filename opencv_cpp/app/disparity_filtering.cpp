@@ -358,6 +358,10 @@ int main(int argc, char** argv) {
         Mat raw_disp_vis;
         getDisparityVis(left_disp, raw_disp_vis, vis_mult);
         imwrite(dst_raw_path + ".png", raw_disp_vis);
+        Mat disp_raw;
+        std::cout << "Compare: " << left_disp.type() << " " << raw_disp_vis.type() << std::endl;
+        applyColorMap(raw_disp_vis, disp_raw, cv::COLORMAP_JET);
+        cv::imshow("Test raw disp", disp_raw);
     }
     if (dst_conf_path != "None") {
         imwrite(dst_conf_path, conf_map);
@@ -368,9 +372,7 @@ int main(int argc, char** argv) {
         imshow("left", left);
         namedWindow("right", WINDOW_AUTOSIZE);
         imshow("right", right);
-        std::cout << "Compare: " << left_disp.type() << " " << raw_disp_vis.type() << std::endl;
-        applyColorMap(raw_disp_vis, disp_raw, cv::COLORMAP_JET);
-        cv::imshow("Test raw disp", disp_raw);
+
         // 视差滤波后的图
         Mat filtered_disp_vis;
         getDisparityVis(filtered_disp, filtered_disp_vis, vis_mult);
