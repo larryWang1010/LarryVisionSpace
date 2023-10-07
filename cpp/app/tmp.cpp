@@ -3,7 +3,7 @@ int add(int a, int b);
 int main() {
     // int e;
     // e = add(num, 1);
-    // // std::cout << "num is: " << c << std::endl;
+    // std::cout << "num is: " << c << std::endl;
     // int d;
     // d = add(num, 10);
     // std::cout << "num is: " << c << " " << d << std::endl;

@@ -28,6 +28,8 @@ find_package(OpenCV 4.5.4 REQUIRED)
 message(STATUS "Found OpenCV ${OpenCV_VERSION} headers in: ${OpenCV_INCLUDE_DIRS}")
 message(STATUS "Found OpenCV_LIBS: ${OpenCV_LIBS}")
 
+
+add_subdirectory(cpp)
 add_subdirectory(opencv_cpp)
-# add_subdirectory(eigen)
-# add_subdirectory(sophus)
+add_subdirectory(eigen)
+add_subdirectory(sophus)
