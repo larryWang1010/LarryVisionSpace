@@ -1,3 +1,0 @@
-[submodule "opencv_cpp/Thirdparty/googletest"]
-	path = opencv_cpp/Thirdparty/googletest
-	url = git@github.com:google/googletest.git
