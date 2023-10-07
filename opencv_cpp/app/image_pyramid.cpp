@@ -12,13 +12,13 @@ int main(int argc, char** argv) {
             " * [o] -> Zoom out \n"
             " * [ESC] -> Close program \n"
          << endl;
-    const char* filename = argc >= 2 ? argv[1] : "chicky_512.png";
+    const char* filename = argc >= 2 ? argv[1] : "lena.png";
     // Loads an image
     Mat src = imread(samples::findFile(filename));
     // Check if image is loaded fine
     if (src.empty()) {
         printf(" Error opening image\n");
-        printf(" Program Arguments: [image_name -- default chicky_512.png] \n");
+        printf(" Program Arguments: [image_name -- default lena.png] \n");
         return EXIT_FAILURE;
     }
     for (;;) {

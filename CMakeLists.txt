@@ -24,6 +24,10 @@ set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 # 第三方库
 find_package(Eigen3 REQUIRED)
 find_package(GTest REQUIRED)
+find_package(OpenCV 4.5.4 REQUIRED)
+message(STATUS "Found OpenCV ${OpenCV_VERSION} headers in: ${OpenCV_INCLUDE_DIRS}")
+message(STATUS "Found OpenCV_LIBS: ${OpenCV_LIBS}")
 
-add_subdirectory(eigen)
-add_subdirectory(sophus)
+add_subdirectory(opencv_cpp)
+# add_subdirectory(eigen)
+# add_subdirectory(sophus)
